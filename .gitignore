@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+
+# Local tooling caches: contain absolute paths and session ids, never publish
+.impeccable/
+.claude/settings.local.json
