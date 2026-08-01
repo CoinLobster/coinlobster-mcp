@@ -4,3 +4,11 @@ node_modules/
 # Local tooling caches: contain absolute paths and session ids, never publish
 .impeccable/
 .claude/settings.local.json
+
+# Keys and secrets. The registry signing key for the com.coinlobster namespace
+# is an Ed25519 .pem; it lives outside this repo and must never land here.
+*.pem
+*.key
+.env
+.env.*
+!.env.example
