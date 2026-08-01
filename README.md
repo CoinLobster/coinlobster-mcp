@@ -1,6 +1,6 @@
 # CoinLobster MCP · Live Crypto Whale Trades for AI Agents
 
-**No API key required.** Real executed whale trades (not wallet transfers) merged live across **15 exchanges** (Binance, Coinbase, Bybit, OKX, Kraken and more) plus on-chain DEX swaps on **Ethereum, Base and Arbitrum**, with a Smart Money Radar for unusual flow, liquidations, market snapshots and outcome-scored signals.
+**No API key required.** Real executed whale trades (not wallet transfers) merged live across **15 exchanges** (Binance, Coinbase, Bybit, OKX, Kraken and more) plus on-chain DEX swaps on **Ethereum, Base and Arbitrum**, with a Smart Money Radar for unusual flow, market-wide liquidations, Hyperliquid whale accounts named wallet by wallet, market snapshots and outcome-scored signals.
 
 The only MCP server with live cross-exchange whale trades. Price data is everywhere, *what whales just did* is not.
 
@@ -93,6 +93,13 @@ Either path serves the same data and the same tool schemas.
 | `squeeze_score` | Fused 0-100 crowding read with the overexposed side (needs an active developer plan, from $29/mo). |
 | `liq_zones` | Projected liquidation level book, always labeled a projection, never recorded trades (keyless: free pairs, no cascade chains). |
 | `trade_context` | The one-call pre-trade blob: price, funding and OI with percentile judgment vs the pair's own recorded days, whale flow vs baseline, visible liquidations, carry-cost arithmetic. |
+| `market_liquidations` | Every force-closed position across the market in one call: 24h dollars and counts split long vs short, hour by hour so a cascade is locatable, top coins, and the Hyperliquid wallets that were closed out. Lending liquidations ride on a separate lane and are never summed with the perp numbers. |
+| `hl_whales` | Hyperliquid whale fills with the **wallet address on every print**. The one large perp venue whose public tape names both sides. |
+| `hl_board` | Tracked Hyperliquid whale accounts: equity, leverage, net bias, and which coins they are crowded into. |
+| `hl_wallet` | One Hyperliquid account: live book, open positions, liquidation price, recent fills. |
+| `onchain_whales` | Large DEX swaps on Ethereum, Base and Arbitrum with the wallet on each swap. |
+| `defi_summary` | Per-chain DEX volume and TVL, highest-volume tokens, and the whale swap layer over them. |
+| `defi_liquidations` | Aave V3 lending liquidations on Ethereum, Arbitrum and Base. Both wallets named: who was liquidated, and who took the collateral. |
 
 All tools are read-only and return descriptive market data only. Never financial advice.
 
@@ -106,7 +113,7 @@ Full MCP depth (live feed on every pair, unlocked radar magnitudes, non-BTC `mar
 
 **CoinLobster Pro ($9/mo) is a different product**: the coinlobster.com website (live feed, alerts, whale radar). It grants no MCP depth and no API access.
 
-Keyless calls cost nothing. On a developer plan, an MCP tool call costs **2x the mirrored REST endpoint: 40 to 100 credits, by tool** (40 for `whale_context`, `liquidations`, `funding_matrix`, `liq_zones`; 60 for `whale_trades`, `whale_tape`, `whale_radar`, `whale_flow`, `market_history`, `market_extremes`, `market_snapshot`, `market_overview`, `squeeze_score`; 100 for `flag_outcomes`, `crypto_news`, `market_screener`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
+Keyless calls cost nothing. On a developer plan, an MCP tool call costs **2x the mirrored REST endpoint: 40 to 100 credits, by tool** (40 for `funding_matrix`, `liq_zones`, `liquidations`, `whale_context`; 60 for `defi_liquidations`, `defi_summary`, `hl_board`, `hl_wallet`, `hl_whales`, `market_extremes`, `market_history`, `market_overview`, `market_snapshot`, `onchain_whales`, `squeeze_score`, `whale_flow`, `whale_radar`, `whale_trades`, `whale_tape`; 100 for `crypto_news`, `flag_outcomes`, `market_liquidations`, `market_screener`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
 
 Once the npm package ships, a developer plan key travels in the stdio config:
 
