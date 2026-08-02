@@ -1,6 +1,6 @@
 # CoinLobster MCP · Live Crypto Whale Trades for AI Agents
 
-**No API key required.** Real executed whale trades (not wallet transfers) merged live across **15 exchanges** (Binance, Coinbase, Bybit, OKX, Kraken and more) plus on-chain DEX swaps on **Ethereum, Base and Arbitrum**, with a Smart Money Radar for unusual flow, market-wide liquidations, Hyperliquid whale accounts named wallet by wallet, market snapshots and outcome-scored signals.
+**No API key required.** Real executed whale trades (not wallet transfers) merged live across **15 exchanges** (Binance, Coinbase, Bybit, OKX, Kraken and more) plus on-chain DEX swaps on **Ethereum, Base and Arbitrum**, with a Smart Money Radar for unusual flow, liquidations from the venues that publish them, Hyperliquid whale accounts named wallet by wallet, market snapshots and outcome-scored signals.
 
 The only MCP server with live cross-exchange whale trades. Price data is everywhere, *what whales just did* is not.
 
@@ -93,7 +93,7 @@ Either path serves the same data and the same tool schemas.
 | `squeeze_score` | Fused 0-100 crowding read with the overexposed side (needs an active developer plan, from $29/mo). |
 | `liq_zones` | Projected liquidation level book, always labeled a projection, never recorded trades (keyless: free pairs, no cascade chains). |
 | `trade_context` | The one-call pre-trade blob: price, funding and OI with percentile judgment vs the pair's own recorded days, whale flow vs baseline, visible liquidations, carry-cost arithmetic. |
-| `market_liquidations` | Every force-closed position across the market in one call: 24h dollars and counts split long vs short, hour by hour so a cascade is locatable, top coins, and the Hyperliquid wallets that were closed out. Lending liquidations ride on a separate lane and are never summed with the perp numbers. |
+| `market_liquidations` | The whole market's forced closes in one call rather than per pair (from the venues that publish a liquidation feed, plus a sampled Hyperliquid lane, so the totals are a floor): 24h dollars and counts split long vs short, hour by hour so a cascade is locatable, top coins, and the Hyperliquid wallets that were closed out. Lending liquidations ride on a separate lane and are never summed with the perp numbers. |
 | `hl_whales` | Hyperliquid whale fills with the **wallet address on every print**. The one large perp venue whose public tape names both sides. |
 | `hl_board` | Tracked Hyperliquid whale accounts: equity, leverage, net bias, and which coins they are crowded into. |
 | `hl_wallet` | One Hyperliquid account: live book, open positions, liquidation price, recent fills. |
