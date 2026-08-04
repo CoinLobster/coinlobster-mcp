@@ -106,7 +106,7 @@ All tools are read-only and return descriptive market data only. Never financial
 
 ## Free tier, and what actually lifts the caps
 
-The free tier needs nothing: BTC/USD and every $1M+ trade stream in real time, other pairs are delayed 15 minutes, DEX swaps $250K and larger, radar magnitudes withheld on non-majors.
+The free tier needs nothing: BTC/USD in full (its whale floor is $500K) plus every $1M+ trade on any pair, both live. Other pairs arrive 15 minutes delayed, DEX swaps from $250K. On the radar only BTC is shown in full; any other coin appears only once it turns unusual, and then as name and direction with the dollar amounts stripped.
 
 **A free API key does not lift the MCP caps.** The free key is a one-off 1,000-credit grant ([coinlobster.com/developers](https://coinlobster.com/developers), no card) that unlocks the metered REST endpoints at `/api/ai/v1/*`, roughly 20 to 100 calls in total. On MCP it changes nothing.
 
