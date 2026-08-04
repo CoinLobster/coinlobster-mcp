@@ -72,7 +72,7 @@ Either path serves the same data and the same tool schemas.
 
 ## Tools
 
-17 tools are live on production: 16 canonical plus `whale_tape`, a deprecated alias kept working for existing callers. Prefer `whale_trades`. Call `tools/list` before relying on any tool, the set grows and this table is not the source of truth (`npm test` only checks that `tools/list` is non-trivial and that `whale_radar` answers, so it stays green across additions).
+25 names come back from `tools/list` on production: 24 canonical tools plus `whale_tape`, a deprecated alias kept working for existing callers. Prefer `whale_trades`. Call `tools/list` before relying on any tool, the set grows and this table is not the source of truth (`npm test` only checks that `tools/list` is non-trivial and that `whale_radar` answers, so it stays green across additions).
 
 | Tool | What it returns |
 | --- | --- |
@@ -98,6 +98,7 @@ Either path serves the same data and the same tool schemas.
 | `hl_board` | Tracked Hyperliquid whale accounts: equity, leverage, net bias, and which coins they are crowded into. |
 | `hl_wallet` | One Hyperliquid account: live book, open positions, liquidation price, recent fills. |
 | `onchain_whales` | Large DEX swaps on Ethereum, Base and Arbitrum with the wallet on each swap. |
+| `dex_wallet` | One Ethereum, Base or Arbitrum address: its DEX swaps, net flow per token, activity pattern. For a Hyperliquid account use `hl_wallet` instead. The swap feed sees roughly 7% of a wallet's total activity, so quiet here is not proof of inactive. |
 | `defi_summary` | Per-chain DEX volume and TVL, highest-volume tokens, and the whale swap layer over them. |
 | `defi_liquidations` | Aave V3 lending liquidations on Ethereum, Arbitrum and Base. Both wallets named: who was liquidated, and who took the collateral. |
 
@@ -113,9 +114,9 @@ Full MCP depth (live feed on every pair, unlocked radar magnitudes, non-BTC `mar
 
 **CoinLobster Pro ($9/mo) is a different product**: the coinlobster.com website (live feed, alerts, whale radar). It grants no MCP depth and no API access.
 
-Keyless calls cost nothing. On a developer plan, an MCP tool call costs **2x the mirrored REST endpoint: 40 to 100 credits, by tool** (40 for `funding_matrix`, `liq_zones`, `liquidations`, `whale_context`; 60 for `defi_liquidations`, `defi_summary`, `hl_board`, `hl_wallet`, `hl_whales`, `market_extremes`, `market_history`, `market_overview`, `market_snapshot`, `onchain_whales`, `squeeze_score`, `whale_flow`, `whale_radar`, `whale_trades`, `whale_tape`; 100 for `crypto_news`, `flag_outcomes`, `market_liquidations`, `market_screener`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
+Keyless calls cost nothing. On a developer plan, an MCP tool call costs **2x the mirrored REST endpoint: 40 to 100 credits, by tool** (40 for `funding_matrix`, `liq_zones`, `liquidations`, `whale_context`; 60 for `defi_liquidations`, `defi_summary`, `dex_wallet`, `hl_board`, `hl_wallet`, `hl_whales`, `market_extremes`, `market_history`, `market_overview`, `market_snapshot`, `onchain_whales`, `squeeze_score`, `whale_flow`, `whale_radar`, `whale_trades`, `whale_tape`; 100 for `crypto_news`, `flag_outcomes`, `market_liquidations`, `market_screener`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
 
-Once the npm package ships, a developer plan key travels in the stdio config:
+A developer plan key travels in the stdio config:
 
 ```json
 {
@@ -154,4 +155,4 @@ npm install
 npm test   # live smoke: initialize + tools/list + a whale_radar call
 ```
 
-MIT licensed. Issues and PRs welcome once the repo is public.
+MIT licensed. Issues and PRs welcome.
