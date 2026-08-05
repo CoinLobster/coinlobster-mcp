@@ -7,6 +7,35 @@ The only MCP server with live cross-exchange whale trades. Price data is everywh
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/coinlobster-mcp)](https://www.npmjs.com/package/coinlobster-mcp)
 
+## See it work
+
+One line to connect, no key and no signup, then ask a question no price API can answer:
+
+```bash
+claude mcp add --transport http coinlobster https://coinlobster.com/mcp
+```
+
+> **Who sold BTC in the last hour?**
+
+A real response, captured 2026-08-05 03:53 UTC:
+
+```
+BTC whale flow, last 1h
+  bought   $6.58M
+  sold    $19.57M
+  net    -$12.99M   across 17 prints
+
+Four accounts did most of the selling:
+  0x1ee7a73c...  sold $12.86M
+  0x854b9d63...  sold  $1.54M
+  0x9e0a3ad8...  sold  $1.29M
+  0x4fbf2adf...  sold  $1.03M
+```
+
+Those are the wallets on the other side of the fills, not a guess from a transfer. The
+number is the whole point: an agent can go from "BTC is down" to "here is who sold, how
+much, and when" in one call. Run it now and you get that hour, not this one.
+
 ## Try asking
 
 - *"What are whales doing with BTC right now?"*
