@@ -69,7 +69,42 @@ claude mcp add --transport http coinlobster https://coinlobster.com/mcp
 code --add-mcp '{"name":"coinlobster","url":"https://coinlobster.com/mcp"}'
 ```
 
-**Claude web / desktop** can add it as a connector instead: `https://coinlobster.com/mcp/connector` (sign in with a free CoinLobster account). Full setup guide: [coinlobster.com/connect](https://coinlobster.com/connect)
+**Cursor** — add to `~/.cursor/mcp.json`, then reload:
+
+```json
+{
+  "mcpServers": {
+    "coinlobster": { "url": "https://coinlobster.com/mcp" }
+  }
+}
+```
+
+**Codex**
+
+```bash
+codex mcp add coinlobster --url https://coinlobster.com/mcp
+```
+
+**Gemini CLI**
+
+```bash
+gemini mcp add -s user --transport http coinlobster https://coinlobster.com/mcp
+```
+
+### Chat apps
+
+These sign in to your CoinLobster account instead of using the keyless URL, so
+use `https://coinlobster.com/mcp/connector` in all of them. A free account works.
+
+| App | Where |
+| --- | --- |
+| Claude (web, desktop, mobile) | Settings, Customize, Connectors, "Add custom connector" |
+| ChatGPT (web) | Turn on Developer mode in Settings, Security and login. Then [chatgpt.com/plugins](https://chatgpt.com/plugins), plus button. Needs a paid plan |
+| Gemini | Settings & help, Connected Apps, "Add a custom app". Google AI Pro or Ultra, US and English only |
+| Grok | [grok.com/connectors](https://grok.com/connectors), New Connector, Custom |
+| Perplexity | Settings, Connectors, "+ Custom connector", Remote. Needs Pro, Max or Enterprise |
+
+Full per-app setup: [coinlobster.com/connect](https://coinlobster.com/connect)
 
 **Any shell, no MCP client:** the hosted server answers plain JSON-RPC over curl (see [How it works](#how-it-works)).
 
