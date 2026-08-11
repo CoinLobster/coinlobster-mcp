@@ -43,6 +43,46 @@ function remoteTransport() {
 }
 
 /**
+ * Turn a transport failure into something a person can act on.
+ *
+ * Measured against a broken remote before this existed: a refused connection
+ * surfaced as the single word "fetch failed", and a bad gateway pasted the raw
+ * `<html>502 Bad Gateway</html>` body straight into the model's context. The
+ * first tells the user nothing at all, and the second is the most common real
+ * failure for a locally installed proxy (offline, DNS, a firewall or a
+ * corporate HTTP proxy). Neither says whether the fault is theirs or ours, and
+ * neither says whether it cost them anything.
+ */
+function friendlyRemoteError(err) {
+    const raw = (err && err.message) || String(err);
+    // The STATUS comes off the error object, never out of the message. The
+    // transport puts the response body in the message, so a page whose text
+    // happens to read "502 Bad Gateway" was being reported as a 502 when the
+    // real status was 503: a number scraped from an arbitrary body can say
+    // anything, and a wrong number sends someone debugging the wrong thing.
+    const code = err && Number(err.code);
+    const status = Number.isFinite(code) && code >= 100 && code <= 599 ? code : null;
+    const unreachable = /fetch failed|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|ETIMEDOUT|network|socket/i.test(raw);
+
+    let what;
+    if (unreachable) {
+        what = `Could not reach the CoinLobster data server at ${REMOTE_URL}. `
+            + 'This machine could not open the connection, so the usual causes are being offline, DNS, '
+            + 'a firewall or a company HTTP proxy rather than anything wrong with the request.';
+    } else if (status) {
+        what = `The CoinLobster data server answered ${status} at ${REMOTE_URL}. `
+            + 'That is our side, not the request.';
+    } else {
+        what = `The call to the CoinLobster data server at ${REMOTE_URL} did not complete.`;
+    }
+    // The reassurance that matters, and it is always true here: the meter only
+    // charges a delivered answer, and nothing was delivered.
+    const e = new Error(`${what} Nothing was charged. Open ${REMOTE_URL} in a browser to check, then retry.`);
+    e.cause = err;
+    return e;
+}
+
+/**
  * One remote call per request, on a fresh connection: the hosted server is
  * stateless per request, so holding a session buys nothing and a fresh
  * connect per tool call survives laptop sleeps, network blips and server
@@ -50,9 +90,15 @@ function remoteTransport() {
  */
 async function withRemote(fn) {
     const client = new Client({ name: 'coinlobster-mcp', version: '1.0.0' });
-    await client.connect(remoteTransport());
+    try {
+        await client.connect(remoteTransport());
+    } catch (err) {
+        throw friendlyRemoteError(err);
+    }
     try {
         return await fn(client);
+    } catch (err) {
+        throw friendlyRemoteError(err);
     } finally {
         await client.close().catch(() => {});
     }

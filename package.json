@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "start": "node src/index.js",
-    "test": "node test/smoke.test.js"
+    "test": "node test/offline.test.js && node test/smoke.test.js",
+    "test:offline": "node test/offline.test.js"
   },
   "engines": {
     "node": ">=18"
