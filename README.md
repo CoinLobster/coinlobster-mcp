@@ -165,7 +165,7 @@ Either path serves the same data and the same tool schemas.
 | `dex_wallet` | One Ethereum, Base or Arbitrum address: its DEX swaps, net flow per token, activity pattern. For a Hyperliquid account use `hl_wallet` instead. The swap feed sees roughly 7% of a wallet's total activity, so quiet here is not proof of inactive. |
 | `defi_summary` | Per-chain DEX volume and TVL, highest-volume tokens, and the whale swap layer over them. |
 | `defi_liquidations` | Aave V3 lending liquidations on Ethereum, Arbitrum and Base. Both wallets named: who was liquidated, and who took the collateral. |
-| `my_access` | What your connection can and cannot see: the row cap and time window in force on it right now, what is locked, and what lifts each one. Free, and it never spends credits. Ask it when a result comes back capped. |
+| `my_access` | What your connection can and cannot see: whether you are on the free plan, how many credits are left and roughly how many calls that buys, the row cap and time window in force right now, what is locked, and what lifts each one. Free, and it never spends credits. Ask it when a result comes back capped. |
 
 All tools are read-only and return descriptive market data only. Never financial advice.
 
@@ -179,7 +179,9 @@ Full MCP depth (live feed on every pair, unlocked radar magnitudes, non-BTC `mar
 
 **CoinLobster Pro ($9/mo) is a different product**: the coinlobster.com website (live feed, alerts, whale radar). It grants no MCP depth and no API access.
 
-Not sure which of these you are on? Ask your AI to call `my_access`. It reports the caps applying to that connection right now and what lifts each one, so you do not have to work it out by hitting them.
+Not sure which of these you are on? Ask your AI to call `my_access`. It reports whether you are on the free plan, how many credits are left, the caps applying to that connection right now and what lifts each one, so you do not have to work it out by hitting them.
+
+When an ask exceeds what your connection allows, the answer says so rather than quietly returning less: the payload carries `capped` with what you requested, what you got, the ceiling and why. `by: keyless` means a plan lifts it. `by: tool_max` is a hard ceiling that no plan raises, so there is nothing to buy and no point retrying.
 
 Keyless calls cost nothing. On a developer plan, an MCP tool call costs **2x the mirrored REST endpoint: 40 to 100 credits, by tool** (40 for `funding_matrix`, `liq_zones`, `liquidations`, `whale_context`; 60 for `defi_liquidations`, `defi_summary`, `dex_wallet`, `hl_board`, `hl_wallet`, `hl_whales`, `market_extremes`, `market_history`, `market_overview`, `market_snapshot`, `onchain_whales`, `squeeze_score`, `whale_flow`, `whale_radar`, `whale_trades`, `whale_tape`; 100 for `crypto_news`, `flag_outcomes`, `market_liquidations`, `market_screener`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
 
