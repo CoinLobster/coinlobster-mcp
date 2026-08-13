@@ -151,6 +151,7 @@ Either path serves the same data and the same tool schemas.
 | `market_history` | Daily funding, open interest, price and whale-flow history, months deep (30d keyless, full archive on a developer plan, from $29/mo). |
 | `market_extremes` | Pairs at records or their own top/bottom 5% for funding, OI or liquidations, with next-day outcome stats for past occurrences. |
 | `whale_context` | Whale flow vs the coin's own logged history: multiple of its average, N-day highs, buy share (USD magnitudes need depth). |
+| `whale_profile` | One coin whole, in a single call: net flow over 1h, 4h, 24h and 7d, the CEX / on-chain / Hyperliquid split, which of the 15 streamed exchanges the flow actually sits on, and flow measured against price (absorption, distribution or confirming). |
 | `market_overview` | One-call market scan: totals, 24h whale net flow, BTC risk regime, top rows by volume. |
 | `market_screener` | Screen coins by funding band, OI band, whale multiple or unusual-only. |
 | `funding_matrix` | Per-venue funding rates with predicted next rate where the venue provides it. |
@@ -161,6 +162,7 @@ Either path serves the same data and the same tool schemas.
 | `hl_whales` | Hyperliquid whale fills with the **wallet address on every print**. The one large perp venue whose public tape names both sides. |
 | `hl_board` | Tracked Hyperliquid whale accounts: equity, leverage, net bias, and which coins they are crowded into. |
 | `hl_wallet` | One Hyperliquid account: live book, open positions, liquidation price, recent fills. |
+| `smart_money` | What the proven trader cohort holds and trades, coin by coin. The cohort is Hyperliquid leaderboard accounts screened for provable profit, not a guess at who is smart. Positions held and dollars traded are separate units and are never summed. |
 | `onchain_whales` | Large DEX swaps on Ethereum, Base and Arbitrum with the wallet on each swap. |
 | `dex_wallet` | One Ethereum, Base or Arbitrum address: its DEX swaps, net flow per token, activity pattern. For a Hyperliquid account use `hl_wallet` instead. The swap feed sees roughly 7% of a wallet's total activity, so quiet here is not proof of inactive. |
 | `defi_summary` | Per-chain DEX volume and TVL, highest-volume tokens, and the whale swap layer over them. |
