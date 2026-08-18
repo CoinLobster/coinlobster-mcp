@@ -99,10 +99,10 @@ use `https://coinlobster.com/mcp/connector` in all of them. A free account works
 | App | Where |
 | --- | --- |
 | Claude (web, desktop, mobile) | Settings, Customize, Connectors, "Add custom connector" |
-| ChatGPT (web) | Turn on Developer mode in Settings, Security and login. Then [chatgpt.com/plugins](https://chatgpt.com/plugins), plus button. Needs a paid plan |
-| Gemini | Settings & help, Connected Apps, "Add a custom app". Google AI Pro or Ultra, US and English only |
+| ChatGPT (web) | Turn on Developer mode in Settings, Security and login. Then [chatgpt.com/plugins](https://chatgpt.com/plugins), plus button |
+| Gemini | Settings & help, Connected Apps, "Add a custom app" |
 | Grok | [grok.com/connectors](https://grok.com/connectors), New Connector, Custom |
-| Perplexity | Settings, Connectors, "+ Custom connector", Remote. Needs Pro, Max or Enterprise |
+| Perplexity | Settings, Connectors, "+ Custom connector", Remote |
 
 Full per-app setup: [coinlobster.com/connect](https://coinlobster.com/connect)
 
@@ -136,7 +136,7 @@ Either path serves the same data and the same tool schemas.
 
 ## Tools
 
-28 names come back from `tools/list` on production: 27 canonical tools plus `whale_tape`, a deprecated alias kept working for existing callers. Prefer `whale_trades`. Call `tools/list` before relying on any tool, the set grows and this table is not the source of truth (`npm test` only checks that `tools/list` is non-trivial and that `whale_radar` answers, so it stays green across additions).
+29 names come back from `tools/list` on production: 28 canonical tools plus `whale_tape`, a deprecated alias kept working for existing callers. Prefer `whale_trades`. Call `tools/list` before relying on any tool, the set grows and this table is not the source of truth (`npm test` only checks that `tools/list` is non-trivial and that `whale_radar` answers, so it stays green across additions).
 
 | Tool | What it returns |
 | --- | --- |
@@ -161,6 +161,7 @@ Either path serves the same data and the same tool schemas.
 | `market_liquidations` | The whole market's forced closes in one call rather than per pair (from the venues that publish a liquidation feed, plus a sampled Hyperliquid lane, so the totals are a floor): 24h dollars and counts split long vs short, hour by hour so a cascade is locatable, top coins, and the Hyperliquid wallets that were closed out. Lending liquidations ride on a separate lane and are never summed with the perp numbers. |
 | `hl_whales` | Hyperliquid whale fills with the **wallet address on every print**. The one large perp venue whose public tape names both sides. |
 | `hl_board` | Tracked Hyperliquid whale accounts: equity, leverage, net bias, and which coins they are crowded into. |
+| `hl_traders` | Every Hyperliquid wallet that has closed a trade, ranked by net-of-fees realized profit from primary fills, so a profitable trader outside the ranked leaderboard is still found. A stage-1 claim: no equity or ROI check, so it is a weaker and different number than `smart_money`. |
 | `hl_wallet` | One Hyperliquid account: live book, open positions, liquidation price, recent fills. |
 | `smart_money` | What the proven trader cohort holds and trades, coin by coin. The cohort is Hyperliquid leaderboard accounts screened for provable profit, not a guess at who is smart. Positions held and dollars traded are separate units and are never summed. |
 | `onchain_whales` | Large DEX swaps on Ethereum, Base and Arbitrum with the wallet on each swap. |
@@ -185,7 +186,7 @@ Not sure which of these you are on? Ask your AI to call `my_access`. It reports 
 
 When an ask exceeds what your connection allows, the answer says so rather than quietly returning less: the payload carries `capped` with what you requested, what you got, the ceiling and why. `by: keyless` means a plan lifts it. `by: tool_max` is a hard ceiling that no plan raises, so there is nothing to buy and no point retrying.
 
-Keyless calls cost nothing. On a developer plan, an MCP tool call costs **2x the mirrored REST endpoint: 40 to 100 credits, by tool** (40 for `funding_matrix`, `liq_zones`, `liquidations`, `whale_context`; 60 for `defi_liquidations`, `defi_summary`, `dex_wallet`, `hl_board`, `hl_wallet`, `hl_whales`, `market_extremes`, `market_history`, `market_overview`, `market_snapshot`, `onchain_whales`, `smart_money`, `squeeze_score`, `whale_flow`, `whale_profile`, `whale_radar`, `whale_trades`, `whale_tape`; 100 for `crypto_news`, `flag_outcomes`, `market_liquidations`, `market_screener`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. `my_access` is always free. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded, whether the answer says so with `available`, `covered`, `tracked`, an `error` or simply an empty page. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
+Keyless calls cost nothing. On a developer plan, an MCP tool call costs **2x the mirrored REST endpoint: 40 to 100 credits, by tool** (40 for `funding_matrix`, `liq_zones`, `liquidations`, `whale_context`; 60 for `defi_liquidations`, `defi_summary`, `dex_wallet`, `hl_board`, `hl_traders`, `hl_wallet`, `hl_whales`, `market_extremes`, `market_history`, `market_overview`, `market_snapshot`, `onchain_whales`, `smart_money`, `squeeze_score`, `whale_flow`, `whale_profile`, `whale_radar`, `whale_trades`, `whale_tape`; 100 for `crypto_news`, `flag_outcomes`, `market_liquidations`, `market_screener`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. `my_access` is always free. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded, whether the answer says so with `available`, `covered`, `tracked`, an `error` or simply an empty page. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
 
 A developer plan key travels in the stdio config:
 
