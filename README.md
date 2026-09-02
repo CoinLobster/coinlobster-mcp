@@ -148,7 +148,7 @@ Many names come back from `tools/list` on production. Several tools carry a seco
 | `market_snapshot` | Price, 24h stats, average funding, open interest and liquidation totals in one call. |
 | `crypto_news` | Recent headlines + a sentiment score (-100 to +100) for a coin, plus the macro picture. |
 | `whale_tape` | Deprecated alias of `whale_trades`. Same tool, same arguments. |
-| `market_history` | Daily funding, open interest, price and whale-flow history, months deep (30d keyless, full archive on a developer plan, from $29/mo). |
+| `market_history` | Daily funding, open interest, price and whale-flow history, months deep (30d keyless, full archive on any paid plan). |
 | `market_extremes` | Pairs at records or their own top/bottom 5% for funding, OI or liquidations, with next-day outcome stats for past occurrences. |
 | `whale_context` | Whale flow vs the coin's own logged history: multiple of its average, N-day highs, buy share (USD magnitudes need depth). |
 | `whale_profile` | One coin whole, in a single call: net flow over 1h, 4h, 24h and 7d, the CEX / on-chain / Hyperliquid split, which of the 15 streamed exchanges the flow actually sits on, and flow measured against price (absorption, distribution or confirming). |
@@ -156,7 +156,7 @@ Many names come back from `tools/list` on production. Several tools carry a seco
 | `market_movers` | The biggest 24h gainers and losers across the streamed board, each with price, 24h change and volume, so a move on thin volume shows. The plain "what is pumping right now" read. |
 | `market_screener` | Screen coins by funding band, OI band, whale multiple or unusual-only. |
 | `funding_matrix` | Per-venue funding rates with predicted next rate where the venue provides it. |
-| `squeeze_score` | Fused 0-100 crowding read with the overexposed side (needs an active developer plan, from $29/mo). |
+| `squeeze_score` | Fused 0-100 crowding read with the overexposed side (needs any paid plan). |
 | `liq_zones` | Projected liquidation level book, always labeled a projection, never recorded trades (keyless: free pairs, no cascade chains). |
 | `trade_context` | The one-call pre-trade blob: price, funding and OI with percentile judgment vs the pair's own recorded days, whale flow vs baseline, visible liquidations, carry-cost arithmetic. |
 | `market_liquidations` | The whole market's forced closes in one call rather than per pair (from the venues that publish a liquidation feed, plus a sampled Hyperliquid lane, so the totals are a floor): 24h dollars and counts split long vs short, hour by hour so a cascade is locatable, top coins, and the Hyperliquid wallets that were closed out. Lending liquidations ride on a separate lane and are never summed with the perp numbers. |
@@ -179,17 +179,15 @@ The free tier needs nothing: BTC/USD in full (its whale floor is $500K) plus eve
 
 **A free API key does not lift the MCP caps.** The free key is a one-off 1,000-credit grant ([coinlobster.com/developers](https://coinlobster.com/developers), no card) that unlocks the metered REST endpoints at `/api/ai/v1/*`, roughly 20 to 100 calls in total. On MCP it changes nothing.
 
-Full MCP depth (live feed on every pair, unlocked radar magnitudes, non-BTC `market_snapshot`, 30-day flow windows, the full archive) needs **an active developer plan**: Builder $29/mo (100k credits), Growth $99/mo (500k), Scale $249/mo (2M). One plan covers both full-depth MCP and the monthly REST credits. Present it either as a `cl_` key in `X-API-Key` on the MCP request, or by signing in over the OAuth connector at `https://coinlobster.com/mcp/connector` with an account that owns a plan.
-
-**CoinLobster Pro ($9/mo) is a different product**: the coinlobster.com website (live feed, alerts, whale radar). It grants no MCP depth and no API access.
+Full MCP depth (live feed on every pair, unlocked radar magnitudes, non-BTC `market_snapshot`, 30-day flow windows, the full archive) comes with **any paid plan**: Starter $9/mo (20k credits), Pro $29/mo (100k), Alpha $99/mo (500k). One subscription and one shared credit balance cover the website, your AI (MCP) and the REST API together. Present it either as a `cl_` key in `X-API-Key` on the MCP request, or by signing in over the OAuth connector at `https://coinlobster.com/mcp/connector` with an account that owns a plan.
 
 Not sure which of these you are on? Ask your AI to call `my_access`. It reports whether you are on the free plan, how many credits are left, the caps applying to that connection right now and what lifts each one, so you do not have to work it out by hitting them.
 
 When an ask exceeds what your connection allows, the answer says so rather than quietly returning less: the payload carries `capped` with what you requested, what you got, the ceiling and why. `by: keyless` means a plan lifts it. `by: tool_max` is a hard ceiling that no plan raises, so there is nothing to buy and no point retrying.
 
-Keyless calls cost nothing. On a developer plan, an MCP tool call is priced by workload, **20 to 100 credits, by tool**: light reads 20, a substantive one-market or one-wallet read 50, a composite or whole-market scan 100 (20 for `coin_liquidations`, `funding_matrix`, `liq_zones`, `liquidations`, `market_snapshot`, `whale_context`; 50 for `crypto_news`, `defi_liquidations`, `defi_summary`, `dex_wallet`, `hl_board`, `hl_traders`, `hl_wallet`, `hl_whales`, `market_extremes`, `market_history`, `market_movers`, `market_overview`, `onchain_whales`, `options`, `price_candles`, `smart_money`, `squeeze_score`, `whale_activity`, `whale_flow`, `whale_profile`, `whale_radar`, `whale_trades`, `whale_tape`; 100 for `flag_outcomes`, `market_brief`, `market_changes`, `market_digest`, `market_liquidations`, `market_screener`, `signal_outcomes`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. `my_access` is always free. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded, whether the answer says so with `available`, `covered`, `tracked`, an `error` or simply an empty page. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
+Keyless calls cost nothing. On a paid plan, an MCP tool call is priced by workload, **20 to 100 credits, by tool**: light reads 20, a substantive one-market or one-wallet read 50, a composite or whole-market scan 100 (20 for `coin_liquidations`, `funding_matrix`, `liq_zones`, `liquidations`, `market_snapshot`, `whale_context`; 50 for `crypto_news`, `defi_liquidations`, `defi_summary`, `dex_wallet`, `hl_board`, `hl_traders`, `hl_wallet`, `hl_whales`, `market_extremes`, `market_history`, `market_movers`, `market_overview`, `onchain_whales`, `options`, `price_candles`, `smart_money`, `squeeze_score`, `whale_activity`, `whale_flow`, `whale_profile`, `whale_radar`, `whale_trades`, `whale_tape`; 100 for `flag_outcomes`, `market_brief`, `market_changes`, `market_digest`, `market_liquidations`, `market_screener`, `signal_outcomes`, `trade_context`). MCP and REST draw on one shared account balance: one plan, one balance, either surface. `my_access` is always free. Discovery (`initialize`, `tools/list`, `ping`) is free, and failed calls and no-data answers are refunded, whether the answer says so with `available`, `covered`, `tracked`, an `error` or simply an empty page. One-off credit packs top up that same shared balance: $10 = 5,000, $49 = 50,000, $199 = 250,000.
 
-A developer plan key travels in the stdio config:
+A paid plan key travels in the stdio config:
 
 ```json
 {
