@@ -148,7 +148,7 @@ Many names come back from `tools/list` on production. Several tools carry a seco
 | `market_snapshot` | Price, 24h stats, average funding, open interest and liquidation totals in one call. |
 | `crypto_news` | Recent headlines + a sentiment score (-100 to +100) for a coin, plus the macro picture. |
 | `whale_tape` | Deprecated alias of `whale_trades`. Same tool, same arguments. |
-| `market_history` | Daily funding, open interest, price and whale-flow history, months deep (30d keyless, full archive on any paid plan). |
+| `market_history` | Daily funding, open interest, price and whale-flow history, months deep (1 day on the free plans, 90 days on Starter, full archive on Pro). |
 | `market_extremes` | Pairs at records or their own top/bottom 5% for funding, OI or liquidations, with next-day outcome stats for past occurrences. |
 | `whale_context` | Whale flow vs the coin's own logged history: multiple of its average, N-day highs, buy share (USD magnitudes need depth). |
 | `whale_profile` | One coin whole, in a single call: net flow over 1h, 4h, 24h and 7d, the CEX / on-chain / Hyperliquid split, which of the 15 streamed exchanges the flow actually sits on, and flow measured against price (absorption, distribution or confirming). |
@@ -157,7 +157,7 @@ Many names come back from `tools/list` on production. Several tools carry a seco
 | `market_screener` | Screen coins by funding band, OI band, whale multiple or unusual-only. |
 | `funding_matrix` | Per-venue funding rates with predicted next rate where the venue provides it. |
 | `squeeze_score` | Fused 0-100 crowding read with the overexposed side (needs any paid plan). |
-| `liq_zones` | Projected liquidation level book, always labeled a projection, never recorded trades (keyless: free pairs, no cascade chains). |
+| `liq_zones` | Projected liquidation level book, always labeled a projection, never recorded trades (free plans: BTC without cascade chains, other coins as a headline). |
 | `trade_context` | The one-call pre-trade blob: price, funding and OI with percentile judgment vs the pair's own recorded days, whale flow vs baseline, visible liquidations, carry-cost arithmetic. |
 | `market_liquidations` | The whole market's forced closes in one call rather than per pair (from the venues that publish a liquidation feed, plus a sampled Hyperliquid lane, so the totals are a floor): 24h dollars and counts split long vs short, hour by hour so a cascade is locatable, top coins, and the Hyperliquid wallets that were closed out. Lending liquidations ride on a separate lane and are never summed with the perp numbers. |
 | `hl_whales` | Hyperliquid whale fills with the **wallet address on every print**. The one large perp venue whose public tape names both sides. |
@@ -172,30 +172,30 @@ Many names come back from `tools/list` on production. Several tools carry a seco
 | `my_access` | What your connection can and cannot see: whether you are on the free plan, how many credits are left and roughly how many calls that buys, the row cap and time window in force right now, what is locked, and what lifts each one. Free, and it never spends credits. Ask it when a result comes back capped. |
 | `coin_search` | Find a coin by symbol or part of a name: the symbol the other tools take, whether this server streams it, whether it is in the free set, price, 24h change, volume, market cap. Free, same on every plan. |
 | `proven_traders` | The proven-trader board by trader number: equity, month and all-time PnL and ROI, fill pace, coins traded. Optional coin filter. Same on every plan. |
-| `situations` | What is going on right now, in stages (emerging, confirmed, fading), with the evidence behind each and the price move since it started. Keyless: the top situations with trimmed evidence; Starter: every live one in full; Pro: the resolved history. |
-| `hl_moves` | What named Hyperliquid accounts just did: open, add, trim, close or flip, with size, side, leverage and liquidation price. Keyless: the proven cohort; a plan: every tracked account. `since_ms` cursor. |
+| `situations` | What is going on right now, in stages (emerging, confirmed, fading), with the evidence behind each and the price move since it started. Free plans: the top situations with trimmed evidence; Starter: every live one in full; Pro: the resolved history. |
+| `hl_moves` | What named Hyperliquid accounts just did: open, add, trim, close or flip, with size, side, leverage and liquidation price. Free plans: the proven cohort, last 24 hours; a paid plan: every tracked account. `since_ms` cursor. |
 | `signal_record` | How the last N firings of one signal type on one coin played out over 24h, the same numbers the site shows. Same on every plan. |
-| `whale_sectors` | Which sectors whale money is rotating into and out of, with the coins carrying it. Keyless: direction and coins; Starter: the dollars. |
-| `orderbook` | The merged order book for one pair: best bid and ask, spread, dollars per side, the venues at each level. Keyless: free pairs at 5 levels; Starter: any pair at 10; Pro: 25. |
-| `watch_create` | Arm an alert on one coin that fires to your webhook: whale flow turns unusual versus the coin's own normal, a signal fires, or funding enters a recorded-days band. "Tell me when", "alert me if". Pro and up; below that the answer names the plan. |
+| `whale_sectors` | Which sectors whale money is rotating into and out of, with the coins carrying it. Free plans: direction and coins; Starter: the dollars. |
+| `orderbook` | The merged order book for one pair: best bid and ask, spread, dollars per side, the venues at each level. Free plans: BTC at 5 levels, other coins as a headline; Starter: any pair at 10; Pro: 25. |
+| `watch_create` | Arm an alert on one coin that fires to your webhook: whale flow turns unusual versus the coin's own normal, a signal fires, or funding enters a recorded-days band. "Tell me when", "alert me if". Starter and up (3 active on Starter, 10 on Pro); below that the answer names the plan. |
 | `watch_list` | The alerts this connection has armed. Free. |
 | `watch_delete` | Remove one armed alert by id. Free. |
 | `my_alerts` | What your own alerts fired since a time, with the move since each fired. Signed-in connection (free). Free returns counts per coin; Starter and up every row. |
 | `watchlist_brief` | Every coin on your watchlist through the whale read in one call: flow vs its own normal, lean, unusual now. Signed-in connection. Starter and up adds the dollars. |
 | `big_catch` | The whale-flow setups the engine is tracking right now, with state, direction, age and the move since fire. Starter and up adds the score and its breakdown. |
 | `dex_board` | The wallets moving the most size on DEXes across the three chains over 48h, or one token's 24h whale-swap snapshot. Wallet addresses from Starter. |
-| `oi_funding_history` | The intraday open-interest and funding path for one pair, aggregated across venues. Free pairs at 1h keyless; every pair at 5 minutes from Starter. |
-| `liq_heat` | Where liquidations actually hit by price band in 5-minute columns. 3h keyless on free pairs; every pair from Starter; 12h and the projected grid on Pro. |
+| `oi_funding_history` | The intraday open-interest and funding path for one pair, aggregated across venues. BTC at 1h over the last 24 hours on the free plans; every pair at 5 minutes from Starter. |
+| `liq_heat` | Where liquidations actually hit by price band in 5-minute columns. 3h on the free plans for BTC; every pair from Starter; 12h and the projected grid on Pro. |
 
 Every data tool is read-only and returns descriptive market data only, never financial advice. The three watch tools arm, list and remove your own alerts.
 
 ## Free tier, and what actually lifts the caps
 
-The free tier needs nothing: BTC/USD in full (its whale floor is $500K) plus every $1M+ trade on any pair, both live. Other pairs arrive 30 minutes delayed, DEX swaps from $250K. On the radar only BTC is shown in full; any other coin appears only once it turns unusual, and then as name and direction with the dollar amounts stripped.
+The free tier needs nothing. Without an account, answers are 30 minutes old (the payload carries `delayed.as_of`), reach back 24 hours, and answer BTC in full and any other coin as a headline (which way whales lean, how unusual, which side the nearest liquidation cluster is), with 100 calls a day. A free account (sign in, no card) is live, with 200 calls a day. On the whale tape, BTC/USD (whale floor $500K) and every $1M+ trade are live, other pairs 30 minutes late, DEX swaps from $250K. On the radar only BTC is shown in full; any other coin appears only once it turns unusual, and then as name and direction with the dollar amounts stripped.
 
-**A free API key does not lift the MCP caps.** The free key is a 250-credit monthly grant ([coinlobster.com/developers](https://coinlobster.com/developers), no card) that unlocks the metered REST endpoints at `/api/ai/v1/*`, roughly 20 to 100 calls in total. On MCP it changes nothing.
+**A free API key does not lift the depth caps.** The free key is a 250-credit monthly grant ([coinlobster.com/developers](https://coinlobster.com/developers), no card) that unlocks the metered REST endpoints at `/api/ai/v1/*`, roughly 20 to 100 calls in total. On MCP it makes answers live and raises the daily cap to 200, the same as a free account.
 
-What lifts the caps is the plan on the account, and the steps are real: **Starter** ($9/mo, 20k credits) opens every streamed pair, live, at core depth (100 trades, 14-day flow windows, 90 days of archive, 15 board rows); **Pro** ($29/mo, 100k) is every tool at full depth (500 trades, 30-day windows, the full archive, the crowding read, cascade chains, whale_flow venue and wallet detail, and the watch tools); **Alpha** ($99/mo, 500k) adds the named wallets behind every smart_money position. One subscription and one shared credit balance cover the website, your AI (MCP) and the REST API together. Present it either as a `cl_` key in `X-API-Key` on the MCP request, or by signing in over the OAuth connector at `https://coinlobster.com/mcp/connector` with an account that owns a plan. Every capped or refused answer carries `upgrade`: the cheapest plan that lifts that wall, its price and a link.
+What lifts the caps is the plan on the account, and the steps are real: **Starter** ($9/mo, 20k credits) opens every coin in full, live, at core depth (100 trades, 2-week windows, 90 days of archive, 15 board rows, 3 alerts your AI can arm); **Pro** ($29/mo, 100k) is every tool at full depth (500 trades, 30-day windows, the full archive, the crowding read, cascade chains, whale_flow venue and wallet detail, and 10 alerts your AI can arm); **Alpha** ($99/mo, 500k) adds the named wallets behind every smart_money position. One subscription and one shared credit balance cover the website, your AI (MCP) and the REST API together. Present it either as a `cl_` key in `X-API-Key` on the MCP request, or by signing in over the OAuth connector at `https://coinlobster.com/mcp/connector` with an account that owns a plan. Every capped or refused answer carries `upgrade`: the cheapest plan that lifts that wall, its price and a link.
 
 Not sure which of these you are on? Ask your AI to call `my_access`. It reports whether you are on the free plan, how many credits are left, the caps applying to that connection right now and what lifts each one, so you do not have to work it out by hitting them.
 
