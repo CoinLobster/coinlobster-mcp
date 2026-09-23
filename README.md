@@ -79,7 +79,7 @@ Call `tools/list` for the current set. Data is descriptive: what happened, never
 | Credits a month | none needed for AI calls | 20,000 | 100,000 | 500,000 |
 | Alerts your AI can arm | none | 3 | 10 | 10 |
 
-New accounts start with 7 days of Pro, no card, in your AI too. On a paid plan a call spends 20 to 100 credits by workload from the same balance the website and REST API use. Free calls, discovery and failed or empty answers cost nothing. Ask your AI to run `my_access` to see what your connection can see right now and what lifts each cap. Pricing: [coinlobster.com/pricing](https://coinlobster.com/pricing).
+New accounts start with 7 days of Pro, no card, in your AI too. On a paid plan a call spends credits by workload from the same balance the website and REST API use: 20 for a light read, 50 for one coin or one wallet, 100 for a whole-market scan. Free calls, discovery and failed or empty answers cost nothing. Ask your AI to run `my_access` to see what your connection can see right now and what lifts each cap. Pricing: [coinlobster.com/pricing](https://coinlobster.com/pricing).
 
 ## Privacy Policy
 
