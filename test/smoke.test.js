@@ -45,7 +45,8 @@ child.stdin.write(rpc(1, 'initialize', {
 }));
 const init = await waitFor(1);
 if (!init.result || !init.result.serverInfo) fail('initialize: ' + JSON.stringify(init));
-console.log('OK initialize:', init.result.serverInfo.name);
+if (!init.result.instructions) fail('initialize: the remote instructions were not forwarded');
+console.log('OK initialize:', init.result.serverInfo.name, `(instructions: ${init.result.instructions.length} chars)`);
 
 child.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n');
 

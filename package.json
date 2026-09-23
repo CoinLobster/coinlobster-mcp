@@ -1,7 +1,7 @@
 {
   "name": "coinlobster-mcp",
-  "version": "1.0.0",
-  "description": "Live crypto whale trades across 15 exchanges + on-chain DEX flow (Ethereum, Base, Arbitrum), Smart Money Radar, liquidations and outcome-scored signals. No API key required.",
+  "version": "1.0.1",
+  "description": "Live crypto market data for AI agents: whale trades across 15 exchanges and Ethereum, Base and Arbitrum, proven Hyperliquid traders, liquidations, funding and a scored signal record. Works without an API key.",
   "type": "module",
   "bin": {
     "coinlobster-mcp": "src/index.js"
@@ -13,8 +13,8 @@
   ],
   "scripts": {
     "start": "node src/index.js",
-    "test": "node test/offline.test.js && node test/smoke.test.js",
-    "test:offline": "node test/offline.test.js"
+    "test": "node test/offline.test.js && node test/proxy.test.js && node test/smoke.test.js",
+    "test:offline": "node test/offline.test.js && node test/proxy.test.js"
   },
   "engines": {
     "node": ">=18"
