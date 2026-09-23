@@ -81,6 +81,10 @@ Call `tools/list` for the current set. Data is descriptive: what happened, never
 
 New accounts start with 7 days of Pro, no card, in your AI too. On a paid plan a call spends 20 to 100 credits by workload from the same balance the website and REST API use. Free calls, discovery and failed or empty answers cost nothing. Ask your AI to run `my_access` to see what your connection can see right now and what lifts each cap. Pricing: [coinlobster.com/pricing](https://coinlobster.com/pricing).
 
+## Privacy Policy
+
+This package runs on your machine and relays your AI's requests to coinlobster.com. It stores nothing locally and sends only the tool name and arguments your AI chooses, plus your API key if you set one. CoinLobster logs requests to run and meter the service and never receives your chat. Full policy, including retention and contact: [coinlobster.com/privacy](https://coinlobster.com/privacy).
+
 ## Development
 
 ```bash
