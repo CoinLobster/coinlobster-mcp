@@ -41,7 +41,13 @@ import {
 
 const VERSION = '1.0.1';
 const REMOTE_URL = process.env.COINLOBSTER_MCP_URL || 'https://coinlobster.com/mcp';
-const API_KEY = process.env.COINLOBSTER_API_KEY || '';
+// A desktop bundle whose optional key field was left empty can hand over the
+// unsubstituted template (`${user_config.api_key}`) or whitespace. Either is
+// "no key", never a key to send.
+const API_KEY = (() => {
+    const k = String(process.env.COINLOBSTER_API_KEY || '').trim();
+    return k && !k.startsWith('${') ? k : '';
+})();
 const TOOLS_TTL_MS = (() => {
     const n = Number(process.env.COINLOBSTER_TOOLS_TTL_MS);
     return Number.isFinite(n) && n >= 0 ? n : 10 * 60 * 1000;
