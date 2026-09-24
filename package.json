@@ -1,7 +1,7 @@
 {
   "name": "coinlobster-mcp",
   "version": "1.0.1",
-  "description": "Live crypto market data for AI agents: whale trades across 15 exchanges and Ethereum, Base and Arbitrum, proven Hyperliquid traders, liquidations, funding and a scored signal record. Works without an API key.",
+  "description": "Live crypto market data for AI agents: whale trades across 19 exchanges and Ethereum, Base and Arbitrum, proven Hyperliquid traders, liquidations, funding and a scored signal record. Works without an API key.",
   "type": "module",
   "bin": {
     "coinlobster-mcp": "src/index.js"
