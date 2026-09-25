@@ -1,6 +1,6 @@
 # CoinLobster MCP · live crypto market data for your AI
 
-Ask your AI what is going on in crypto and get an answer built on what actually traded: whale trades across **19 exchanges** plus **Ethereum, Base and Arbitrum** DEX swaps, Hyperliquid accounts named wallet by wallet, the proven-trader cohort, forced closes, funding and open interest against each coin's own history, and a signal record that shows the misses next to the hits.
+Ask your AI what is going on in crypto and get an answer built on what actually traded: whale trades across **18 exchanges** plus **Ethereum, Base and Arbitrum** DEX swaps, Hyperliquid accounts named wallet by wallet, the proven-trader cohort, forced closes, funding and open interest against each coin's own history, and a signal record that shows the misses next to the hits.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/coinlobster-mcp)](https://www.npmjs.com/package/coinlobster-mcp)
